@@ -14,13 +14,6 @@
   <packaging>jar</packaging>
 
   <name>horizon-analysis</name>
-  <url>http://www.myorganization.org</url>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-  </properties>
-
 
   <dependencies>
 
@@ -32,11 +25,32 @@
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>tomcat</groupId>
+          <artifactId>jasper-compiler</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>tomcat</groupId>
+          <artifactId>jasper-runtime</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-mapreduce-client-app</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -46,94 +60,4 @@
     </dependency>
   </dependencies>
 
-  <!--<profiles>-->
-  <!--<profile>-->
-  <!--<id>hadoop-2</id>-->
-  <!--<dependencyManagement>-->
-  <!--<dependencies>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.hadoop</groupId>-->
-  <!--<artifactId>hadoop-client</artifactId>-->
-  <!--<version>${hadoop-2.version}</version>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.hadoop</groupId>-->
-  <!--<artifactId>hadoop-common</artifactId>-->
-  <!--<version>${hadoop-2.version}</version>-->
-  <!--<exclusions>-->
-  <!--<exclusion>-->
-  <!--<groupId>org.apache.httpcomponents</groupId>-->
-  <!--<artifactId>httpcore</artifactId>-->
-  <!--</exclusion>-->
-  <!--<exclusion>-->
-  <!--<groupId>org.apache.httpcomponents</groupId>-->
-  <!--<artifactId>httpclient</artifactId>-->
-  <!--</exclusion>-->
-  <!--</exclusions>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.hadoop</groupId>-->
-  <!--<artifactId>hadoop-hdfs</artifactId>-->
-  <!--<version>${hadoop-2.version}</version>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.hadoop</groupId>-->
-  <!--<artifactId>hadoop-mapreduce-client-jobclient</artifactId>-->
-  <!--<version>${hadoop-2.version}</version>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.hadoop</groupId>-->
-  <!--<artifactId>hadoop-mapreduce-client-core</artifactId>-->
-  <!--<version>${hadoop-2.version}</version>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.hadoop</groupId>-->
-  <!--<artifactId>hadoop-minikdc</artifactId>-->
-  <!--<version>${hadoop-2.version}</version>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.hbase</groupId>-->
-  <!--<artifactId>hbase-common</artifactId>-->
-  <!--<version>${hbase.hadoop2.version}</version>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.hbase</groupId>-->
-  <!--<artifactId>hbase-hadoop-compat</artifactId>-->
-  <!--<version>${hbase.hadoop2.version}</version>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.hbase</groupId>-->
-  <!--<artifactId>hbase-hadoop2-compat</artifactId>-->
-  <!--<version>${hbase.hadoop2.version}</version>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.hbase</groupId>-->
-  <!--<artifactId>hbase-server</artifactId>-->
-  <!--<version>${hbase.hadoop2.version}</version>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.hadoop</groupId>-->
-  <!--<artifactId>hadoop-minicluster</artifactId>-->
-  <!--<version>${hadoop-2.version}</version>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.scala-lang</groupId>-->
-  <!--<artifactId>scala-library</artifactId>-->
-  <!--<version>${scala.version}</version>-->
-  <!--</dependency>-->
-  <!--<dependency>-->
-  <!--<groupId>org.apache.spark</groupId>-->
-  <!--<artifactId>spark-core_${scala.binary.version}</artifactId>-->
-  <!--<version>${spark.version}</version>-->
-  <!--<exclusions>-->
-  <!--<exclusion>-->
-  <!--<groupId>org.apache.hadoop</groupId>-->
-  <!--<artifactId>hadoop-core</artifactId>-->
-  <!--</exclusion>-->
-  <!--</exclusions>-->
-  <!--</dependency>-->
-  <!--</dependencies>-->
-  <!--</dependencyManagement>-->
-  <!--</profile>-->
-  <!--</profiles>-->
 </project>

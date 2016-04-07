@@ -55,7 +55,7 @@
     <commons.pool.version>1.6</commons.pool.version>
 
     <cglib.version>2.2</cglib.version>
-    <jdk.version>1.8</jdk.version>
+    <jdk.version>1.7</jdk.version>
 
     <junit.version>4.9</junit.version>
 
@@ -130,14 +130,6 @@
         <groupId>org.apache.hive</groupId>
         <artifactId>hive-exec</artifactId>
         <version>${hive.version}</version>
-
-        <exclusions>
-          <!-- Exclude Commons Logging in favor of SLF4j -->
-          <exclusion>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-shims</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
 
       <dependency>

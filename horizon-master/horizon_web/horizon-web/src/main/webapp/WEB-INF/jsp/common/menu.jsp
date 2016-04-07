@@ -64,6 +64,25 @@
           <li id="menu_job_sqooplist"><a href="<%= path %>/sqoop/list.do">
             <i class="fa fa-angle-double-right"></i><fmt:message key="data.horizon.job.sqoop"/></a>
           </li>
+          <li id="menu_job_job_info"><a href="<%= path %>/jobinfo/list.do">
+            <i class="fa fa-angle-double-right"></i><fmt:message key="data.horizon.job.jobinfo"/></a>
+          </li>
+          <li id="menu_job_jobgroup_info"><a href="<%= path %>/jobgroup/list.do">
+            <i class="fa fa-angle-double-right"></i><fmt:message key="data.horizon.job.jobgroup"/></a>
+          </li>
+        </ul>
+      </li>
+
+      <li id="user" class="treeview">
+        <a href="#">
+          <i class="fa fa-list-ul"></i>
+          <span><fmt:message key="data.horizon.user"/></span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li id="user_list"><a href="<%= path %>/user/all.do">
+            <i class="fa fa-angle-double-right"></i><fmt:message key="data.horizon.user.user"/></a>
+          </li>
         </ul>
       </li>
 

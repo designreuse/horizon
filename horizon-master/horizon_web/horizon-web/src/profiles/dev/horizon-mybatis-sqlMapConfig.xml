@@ -21,7 +21,10 @@
 	<mappers>
 		<mapper resource="sqlmap/DBInfoModel.xml" />
 		<mapper resource="sqlmap/DWPhysicalModel.xml" />
-		<mapper resource="sqlmap/SqoopJobModel.xml" />
+		<mapper resource="sqlmap/JobGroupModel.xml"/>
+		<mapper resource="sqlmap/JobInfoModel.xml"/>
+		<mapper resource="sqlmap/JobDetailModel.xml"/>
+		<mapper resource="sqlmap/UserModel.xml"/>
 	</mappers>
 
 </configuration>

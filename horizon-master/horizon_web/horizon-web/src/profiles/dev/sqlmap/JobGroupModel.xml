@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="JobGroup">
+
+  <select id="list" resultType="data.horizon.core.config.model.JobGroup">
+    select id,name,enable,`desc` from job_group
+  </select>
+
+  <update id="update" parameterType="data.horizon.core.config.model.JobGroup">
+    update job_group set enable = #{enable},`desc` = #{desc} where id = #{id}
+  </update>
+
+  <insert id="insert" parameterType="data.horizon.core.config.model.JobGroup">
+     insert into job_group (id,`name`,`enable`,`desc`)
+     values(null,#{name},#{enable},#{desc})
+  </insert>
+</mapper>

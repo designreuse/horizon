@@ -14,9 +14,9 @@
         ,hive_command
         ,create_time
         ,update_time
-      from etl_meta_sqoop_job_v1
+      from etl_meta_sqoop_job_v1_20160111
     </select>
-    
+
     <update id="update" parameterType="data.horizon.core.config.model.SqoopJob">
       update etl_meta_sqoop_job_v1
       set sqp_job_name=#{sqp_job_name}

@@ -32,7 +32,7 @@
             <div class="box">
               <div class="box-header">
                 <h3 class="box-title"><fmt:message key="data.horizon.job.sqoop.title.second"/></h3>
-                <button id="add_db" type="button" data-toggle="modal" data-target="#sqoop_add_modal" class="btn btn-app btn-danger">
+                <button id="add_sqoop" type="button" data-toggle="modal" data-target="#sqoop_add_modal" class="btn btn-app btn-danger">
                   <i class="fa fa-plus-square-o"></i>增加
                 </button>
               </div>

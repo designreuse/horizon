@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="JobInfo">
+    <select id="list" resultType="data.horizon.core.config.model.JobInfo">
+      select
+        id,
+        group_name,
+        name,
+        manager,
+        running_status,
+        plugin,
+        start_time,
+        end_time,
+        frequency,
+        enable,
+        last_modified_time,
+        `desc`
+      from job_info
+    </select>
+
+    <update id="update" parameterType="data.horizon.core.config.model.JobInfo">
+      UPDATE job_info SET  manager=#{manager}, plugin=#{plugin}, frequency=#{frequency}, enable=#{enable}, last_modified_time=now(), `desc`=#{desc} WHERE group_name=#{group_name} and name=#{name}
+    </update>
+
+    <insert id="insert" parameterType="data.horizon.core.config.model.JobInfo" useGeneratedKeys="true" keyProperty="id">
+      INSERT INTO job_info (id, group_name, name, manager, running_status, plugin, start_time, end_time, frequency, enable, last_modified_time, `desc`)
+      VALUES (NULL, #{group_name}, #{name}, #{manager}, #{running_status}, #{plugin}, now(), now(), #{frequency}, #{enable}, now(), #{desc})
+    </insert>
+</mapper>
