@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<repositories>
+  <repository>    <id>KettleFileRepository</id>
+    <name>DW_ETL</name>
+    <description>DW_ETL</description>
+    <base_directory>D&#x3a;&#x5c;IDE&#x5c;WorkSpace&#x5c;DW_ETL</base_directory>
+    <read_only>N</read_only>
+    <hides_hidden_files>Y</hides_hidden_files>
+  </repository>  </repositories>

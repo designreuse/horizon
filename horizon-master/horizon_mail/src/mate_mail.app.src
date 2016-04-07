@@ -1,0 +1,12 @@
+{application, mate_mail,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { mate_mail_app, []}},
+  {env, []}
+ ]}.

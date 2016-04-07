@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.horizon.core.config.etl.meta.job.report">
+  <!-- 查询出所有的报表作业配置 -->
+  <select id="query_all" resultType="data.horizon.core.config.model.ReportJob">
+		SELECT t.id
+      , t.`name`
+      , t.report_name
+      , t.location_path
+      , t.send_type
+      , t.manager
+      , t.status
+      , t.create_time
+      , t.update_time
+    FROM etl_meta_report t
+  </select>
+
+  <!-- 根据DB_ID查询数据库配置 -->
+  <select id="query_detail" parameterType="int" resultType="data.horizon.core.config.model.DBInfo">
+    SELECT t.db_id
+    , t.db_name
+    , t.database_name
+    , t.db_desc
+    , t.db_url
+    , t.dialect
+    , t.user_name
+    , t.pwd
+    , t.is_enable
+    , t.create_time
+    , t.update_time
+    FROM etl_meta_db t
+    WHERE t.db_id = #{db_id}
+  </select>
+
+  <!-- 添加DB -->
+  <update id="save" parameterType="data.horizon.core.config.model.DBInfo">
+    INSERT INTO etl_meta_db(db_name, database_name, db_desc, dialect, user_name, pwd, db_url, is_enable, create_time, update_time)
+    VALUES (#{db_name}, #{database_name}, #{db_desc}, #{dialect}, #{user_name}, #{pwd}, #{db_url}, 0, now(), now())
+  </update>
+
+  <!-- 根据DB_ID更新数据库配置 -->
+  <update id="update" parameterType="data.horizon.core.config.model.DBInfo">
+    UPDATE etl_meta_db t
+    SET t.db_name = #{db_name}
+      , t.database_name = #{database_name}
+      , t.db_desc = #{db_desc}
+      , t.dialect = #{dialect}
+      , t.user_name = #{user_name}
+      , t.pwd = #{pwd}
+      , t.db_url = #{db_url}
+      , t.update_time = now()
+    WHERE t.db_id = #{db_id}
+  </update>
+
+  <!-- 根据DB_ID更新数据库状态 -->
+  <update id="update_status" parameterType="int">
+    UPDATE etl_meta_db t
+    SET t.is_enable = IF(t.is_enable = 0, 1, 0),
+      t.update_time = now()
+    WHERE t.db_id = #{db_id}
+  </update>
+</mapper>
