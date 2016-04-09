@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.horizon.core.config.model.businessprocess">
+    <select id="list" resultType="data.horizon.core.config.model.BusinessProcess">
+          select
+        business_process_id
+        ,business_process_name
+        ,business_process_details
+        ,business_charge_person
+        ,business_link
+        ,create_time
+        ,update_time
+        from business_process_bus
+    </select>
+
+    <!-- 鏍规嵁DB_ID鏌ヨ鏁版嵁搴撻厤缃� -->
+    <select id="query" parameterType="int" resultType="data.horizon.core.config.model.BusinessProcess">
+        SELECT  business_process_id
+        ,business_process_name
+        ,business_process_details
+        ,business_charge_person
+        ,business_link
+        ,create_time
+        ,update_time
+        from business_process_bus
+        WHERE business_process_id = #{business_process_id}
+    </select>
+
+
+
+    <update id="update" parameterType="data.horizon.core.config.model.BusinessProcess">
+        update business_process_bus
+        set business_process_id=#{business_process_id}
+        ,business_process_name=#{business_process_name}
+        ,business_process_details=#{business_process_details}
+        ,business_charge_person=#{business_charge_person}
+        ,business_link=#{business_link}
+        ,update_time=now()
+        where business_process_id=#{business_process_id}
+    </update>
+
+    <insert id="insert" parameterType="data.horizon.core.config.model.BusinessProcess">
+        insert into business_process_bus (business_process_id,business_process_name,business_process_details,business_charge_person,business_link,create_time,update_time)
+        values(null,#{business_process_name},#{business_process_details},#{business_charge_person},#{business_link},now(),now())
+    </insert>
+
+    <!-- 鏍规嵁SERVER_ID鏇存柊鏁版嵁搴撶姸鎬� -->
+    <update id="update_status" parameterType="int">
+        UPDATE etl_meta_service t
+        SET t.is_enable = IF(t.is_enable = 0, 1, 0),
+        t.update_time = now()
+        WHERE t.server_id = #{server_id}
+    </update>
+
+
+    <!-- 鏍规嵁SERVER_ID鍒犻櫎 -->
+    <delete id="business_process_delete"  parameterType="int">
+        delete from business_process_bus
+        WHERE business_process_id = #{business_process_id}
+    </delete>
+
+</mapper>

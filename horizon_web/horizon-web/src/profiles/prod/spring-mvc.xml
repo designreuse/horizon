@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+   http://www.springframework.org/schema/beans    
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context-4.0.xsd
+   http://www.springframework.org/schema/mvc   
+   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+  <context:component-scan base-package="data.horizon" />
+  <context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/>
+  <mvc:annotation-driven />
+
+  <!-- 静态资源访问 -->
+  <!--<mvc:resources location="/build/" mapping="/build/**"/>-->
+  <mvc:resources location="/css/" mapping="/css/**"/>
+  <mvc:resources location="/fonts/" mapping="/fonts/**"/>
+  <mvc:resources location="/img/" mapping="/img/**"/>
+  <mvc:resources location="/js/" mapping="/js/**"/>
+  <!--<mvc:resources location="/less/" mapping="/less/**"/>-->
+  <!--<mvc:resources location="/plugins/" mapping="/plugins/**"/>-->
+
+  <!-- i18n国际化开始 -->
+  <!-- 默认语言设置为英文. 更改语言加参数 ?lang=en -->
+  <mvc:interceptors>
+    <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+      <property name="paramName" value="lang"></property>
+    </bean>
+  </mvc:interceptors>
+
+  <bean id="localeResolver"  class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+    <property name="defaultLocale" value="zh"/>
+  </bean>
+
+  <bean id="messageSource"   class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <property name="basename" value="classpath:i18n/messages" />
+    <property name="defaultEncoding" value="UTF-8"/>
+  </bean>
+  <!-- i18n国际化结束 -->
+
+  <!-- 用于页面跳转,根据请求的不同跳转到不同页面，如请求index.do则跳转到/WEB-INF/jsp/index.jsp -->
+  <bean id="findJsp"
+        class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
+
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="mappings">
+      <props>
+        <prop key="*.do">findJsp</prop><!-- 表示index转向index.jsp页面 -->
+        <!--<prop key="/**/*.html">findJsp</prop>&lt;!&ndash; 表示/db/index转向/db/index.jsp页面 &ndash;&gt;-->
+        <!--<prop key="/**/*.html">findJsp</prop>&lt;!&ndash; 表示index转向index.jsp页面 &ndash;&gt;-->
+        <!--<prop key="index.do">findJsp</prop>&lt;!&ndash; index.do转向index.jsp页面 &ndash;&gt;-->
+      </props>
+    </property>
+  </bean>
+
+  <!-- 视图解析 -->
+  <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+    <!-- 返回的视图模型数据需要经过jstl来处理 -->
+    <property name="viewClass"
+              value="org.springframework.web.servlet.view.JstlView" />
+    <property name="prefix" value="/WEB-INF/jsp/" />
+    <property name="suffix" value=".jsp" />
+  </bean>
+
+  <!-- 由于web.xml拦截/路径 需要添加对静态资源文件的访问 不支持访问WEB-INF目录 -->
+  <mvc:default-servlet-handler />
+
+  <bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+    <property name="supportedMediaTypes">
+      <list>
+        <value>text/plain;charset=UTF-8</value>
+      </list>
+    </property>
+  </bean>
+
+  <!-- 输出对象转JSON支持 -->
+  <bean id="jsonConverter"
+        class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+  <bean
+      class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    <property name="messageConverters">
+      <list>
+        <ref bean="stringConverter"/>
+        <ref bean="jsonConverter" />
+      </list>
+    </property>
+  </bean>
+</beans>

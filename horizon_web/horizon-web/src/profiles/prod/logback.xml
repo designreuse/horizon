@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <Target>System.out</Target>
+    <encoder>
+      <pattern>%d [%t] %p %logger - %m%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+  </appender>
+
+  <appender name="horizon_debug"
+            class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+    <File>${catalina.base}/logs/horizon_debug.log</File>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{0} - %msg%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>logs/horizon_debug.%d{yyyy-MM-dd}.log</FileNamePattern>
+    </rollingPolicy>
+  </appender>
+
+  <appender name="horizon"
+            class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+    <File>${catalina.base}/logs/horizon.log</File>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{0} - %msg%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>logs/horizon.%d{yyyy-MM-dd}.log</FileNamePattern>
+    </rollingPolicy>
+  </appender>
+
+  <appender name="horizon_error"
+            class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${catalina.base}/logs/horizon_error.log</File>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{0} - %msg%n
+      </pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>ERROR</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>logs/horizon_error.%d{yyyy-MM-dd}.log
+      </FileNamePattern>
+    </rollingPolicy>
+  </appender>
+
+  <!--<logger name="org.apache.axis.ConfigurationException" level="info" />-->
+
+  <logger name="java.sql" level="DEBUG" />
+  <logger name="data.horizon" level="DEBUG" />
+
+  <logger name="org.apache.ibatis" level="DEBUG" />
+  <logger name="org.springframework" level="ERROR" />
+  <!--<logger name="net.rubyeye.xmemcached" level="ERROR" />-->
+  <!--<logger name="com.google.code.yanf4j" level="ERROR" />-->
+  <!--<logger name="org.apache.zookeeper" level="ERROR" />-->
+  <!--<logger name="org.springframework.scheduling.quartz" level="ERROR" />-->
+  <!--<logger name="com.alibaba.dubbo.remoting.exchange.support.header"-->
+  <!--level="ERROR" />-->
+  <!--<logger name="com.qunar.pay.g2.utils" level="WARN" />-->
+
+  <root level="DEBUG">
+    <appender-ref ref="console" />
+    <appender-ref ref="horizon_debug" />
+    <!--<appender-ref ref="horizon" />-->
+  </root>
+
+  <root level="ERROR">
+    <appender-ref ref="console" />
+    <appender-ref ref="horizon" />
+    <appender-ref ref="horizon_error" />
+  </root>
+
+  <root level="INFO">
+    <appender-ref ref="console" />
+    <appender-ref ref="horizon" />
+  </root>
+
+</configuration>

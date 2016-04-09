@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+						http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+  <import resource="classpath:application-datasource*.xml"/>
+
+  <!-- etl元数据库sql session -->
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <!--<property name="typeAliasesPackage" value="data.horizon.model" />-->
+    <property name="configLocation">
+      <value>
+        classpath:horizon-mybatis-sqlMapConfig.xml
+      </value>
+    </property>
+  </bean>
+
+  <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+    <!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>-->
+    <!--<property name="basePackage" value="data.horizon.core.config.model.mappers" />-->
+  <!--</bean>-->
+
+  <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+    <constructor-arg index="0" ref="sqlSessionFactory" />
+  </bean>
+
+  <!-- hive元数据库sql session -->
+  <bean id="dwSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dwDataSource" />
+    <!--<property name="typeAliasesPackage" value="data.horizon.model" />-->
+    <property name="configLocation">
+      <value>
+        classpath:horizon-mybatis-sqlMapConfig.xml
+      </value>
+    </property>
+  </bean>
+
+  <bean id="dwSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+    <constructor-arg index="0" ref="dwSqlSessionFactory" />
+  </bean>
+</beans>

@@ -1,0 +1,13 @@
+*.class
+
+# Package Files #
+*.war
+*.ear
+*.log
+*.DS_Store
+
+target
+.idea
+*.iml
+*.ipr
+*.iws

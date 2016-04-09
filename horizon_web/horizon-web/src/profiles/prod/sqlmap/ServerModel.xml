@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.horizon.core.config.model.server">
+       <select id="list" resultType="data.horizon.core.config.model.ServerInfo">
+              select
+              server_id
+              ,server_name
+              ,server_ip
+              ,server_port
+              ,server_desc
+              ,is_enable
+              ,user_name
+              ,create_time
+              ,update_time
+              ,max_run_script
+              ,group_name
+              ,belong_people
+              from etl_meta_service
+       </select>
+
+       <!-- 根据DB_ID查询数据库配置 -->
+       <select id="query" parameterType="int" resultType="data.horizon.core.config.model.ServerInfo">
+              SELECT server_id
+              ,server_name
+              ,server_ip
+              ,server_port
+              ,server_desc
+              ,is_enable
+              ,user_name
+              ,create_time
+              ,update_time
+               ,max_run_script
+              ,group_name
+              ,belong_people
+              from etl_meta_service
+              WHERE server_id = #{server_id}
+       </select>
+
+
+
+       <update id="update" parameterType="data.horizon.core.config.model.ServerInfo">
+              update etl_meta_service
+              set server_id=#{server_id}
+              ,server_name=#{server_name}
+              ,server_ip=#{server_ip}
+              ,server_port=#{server_port}
+              ,server_desc=#{server_desc}
+              ,is_enable=1
+              ,user_name=#{user_name}
+              ,update_time=now()
+              ,max_run_script=#{max_run_script}
+              ,group_name=#{group_name}
+              ,belong_people=#{belong_people}
+              where server_id=#{server_id}
+       </update>
+
+       <insert id="insert" parameterType="data.horizon.core.config.model.ServerInfo">
+              insert into etl_meta_service (server_id,server_name,server_ip,server_port,server_desc,is_enable,user_name,create_time,update_time,max_run_script,group_name,belong_people)
+              values(null,#{server_name},#{server_ip},#{server_port},#{server_desc},0,#{user_name},now(),now(),#{max_run_script},#{group_name},#{belong_people})
+       </insert>
+
+       <!-- 根据SERVER_ID更新数据库状态 -->
+       <update id="update_status" parameterType="int">
+              UPDATE etl_meta_service t
+              SET t.is_enable = IF(t.is_enable = 0, 1, 0),
+              t.update_time = now()
+              WHERE t.server_id = #{server_id}
+       </update>
+
+
+       <!-- 根据SERVER_ID删除 -->
+       <delete id="server_delete"  parameterType="int">
+              delete from etl_meta_service
+              WHERE server_id = #{server_id}
+       </delete>
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.horizon.core.config.dw.model.physical">
+  <!-- 查询出hive数据库种所有的数仓相关的表 -->
+  <select id="query_tbl" resultType="data.horizon.core.config.model.Table">
+    SELECT t.TBL_ID
+      , t.TBL_NAME
+      , MAX(IF(p.PARAM_KEY = 'comment', p.PARAM_VALUE, NULL)) AS tbl_comment
+      , t.`OWNER` AS user
+      , d.`NAME` AS database_name
+      , d.`NAME` AS db_name
+      , IF(t.TBL_TYPE = 'MANAGED_TABLE', 0, 1) AS tbl_type
+      , FROM_UNIXTIME(t.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS create_time
+      , FROM_UNIXTIME(MAX(IF(p.PARAM_KEY = 'last_modified_time', p.PARAM_VALUE, NULL)), '%Y-%m-%d %H:%i:%s') AS update_time
+      , FROM_UNIXTIME(MAX(IF(p.PARAM_KEY = 'transient_lastDdlTime', p.PARAM_VALUE, NULL)), '%Y-%m-%d %H:%i:%s') AS ddl_update_time
+    FROM TBLS t, DBS d, TABLE_PARAMS p
+    WHERE t.DB_ID = d.DB_ID
+    AND t.TBL_ID = p.TBL_ID
+    AND t.`OWNER` = 'dwetl'
+    AND d.`NAME` IN ('dw_ods', 'dw_tmp', 'dw_fact', 'dw_dim', 'dw_cube')
+    AND p.PARAM_KEY IN ('comment', 'last_modified_time', 'transient_lastDdlTime')
+    GROUP BY t.TBL_ID
+  </select>
+
+  <!-- 查询出hive数据库种所有的数仓相关的列 -->
+  <select id="query_col" resultType="data.horizon.core.config.model.Column">
+    SELECT r.COLUMN_NAME
+      , r.`type`
+      , r.`COMMENT`
+      , r.TBL_ID
+      , r.TBL_NAME
+      , r.DB_ID
+      , r.db_name
+    FROM(
+      SELECT c.COLUMN_NAME
+        , t.TBL_ID
+        , t.TBL_NAME
+        , c.`COMMENT`
+        , t.DB_ID
+        , d.`NAME` AS db_name
+        , 0 AS `type`
+        , c.INTEGER_IDX
+      FROM TBLS t
+      JOIN SDS s ON (t.SD_ID = s.SD_ID)
+      JOIN COLUMNS_V2 c ON (s.CD_ID = c.CD_ID)
+      JOIN DBS d ON (t.DB_ID = d.DB_ID)
+      WHERE d.`NAME` IN ('dw_ods', 'dw_tmp', 'dw_fact', 'dw_dim', 'dw_cube')
+      UNION ALL
+      SELECT p.PKEY_NAME
+        , t.TBL_ID
+        , t.TBL_NAME
+        , p.PKEY_COMMENT
+        , t.DB_ID
+        , d.`NAME` AS db_name
+        , 1 AS `type`
+        , p.INTEGER_IDX
+      FROM TBLS t
+      JOIN PARTITION_KEYS p ON (t.TBL_ID = p.TBL_ID)
+      JOIN DBS d ON (t.DB_ID = d.DB_ID)
+      WHERE d.`NAME` IN ('dw_ods', 'dw_tmp', 'dw_fact', 'dw_dim', 'dw_cube')
+    ) r
+    ORDER BY r.db_name ASC, r.TBL_ID DESC, r.`type` ASC, r.INTEGER_IDX ASC
+  </select>
+</mapper>

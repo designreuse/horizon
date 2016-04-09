@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.horizon.core.config.model.Sqoopjob">
+    <select id="list" resultType="data.horizon.core.config.model.SqoopJob">
+      select
+         sqp_job_id
+        ,sqp_job_name
+        ,source_db_names
+        ,source_db_short_names
+        ,hive_db
+        ,hive_table_name
+        ,sqp_command
+        ,hive_command
+        ,create_time
+        ,update_time
+      from etl_meta_sqoop_job_v1
+    </select>
+    
+    <update id="update" parameterType="data.horizon.core.config.model.SqoopJob">
+      update etl_meta_sqoop_job_v1
+      set sqp_job_name=#{sqp_job_name}
+        ,source_db_names=#{source_db_names}
+        ,source_db_short_names=#{source_db_short_names}
+        ,hive_db=#{hive_db}
+        ,hive_table_name=#{hive_table_name}
+        ,sqp_command=#{sqp_command}
+        ,hive_command=#{hive_command}
+        ,update_time=now()
+      where sqp_job_id=#{sqp_job_id}
+    </update>
+
+    <insert id="insert" parameterType="data.horizon.core.config.model.SqoopJob">
+      insert into etl_meta_sqoop_job_v1 (sqp_job_id,sqp_job_name,source_db_names,source_db_short_names,hive_db,hive_table_name,sqp_command,hive_command,create_time,update_time)
+      values(null,#{sqp_job_name},#{source_db_names},#{source_db_short_names},#{hive_db},#{hive_table_name},#{sqp_command},#{hive_command},now(),now())
+    </insert>
+</mapper>
